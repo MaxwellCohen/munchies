@@ -2,7 +2,13 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   cacheComponents: true,
-  /* config options here */
+  images: {
+    localPatterns: [
+      {
+        pathname: '/api/proxy',
+      },
+    ],
+  },
 };
 
 export default nextConfig;
