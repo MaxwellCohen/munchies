@@ -1,11 +1,10 @@
 import Logo from "@/components/icons/logo";
-import { Card } from "@/components/ui/card";
 import { getFilters } from "@/lib/server/getFilters";
 import { getRestaurants } from "@/lib/server/getRestaurants";
-import Image from "next/image";
 import { Suspense } from "react";
 import { FilterSection } from "@/components/filterSection/filterSection";
 import { RestaurantList } from "@/components/restaurantList/restaurantList";
+import { FoodTypeFilterCard } from "@/components/foodType/FoodType";
 
 export const dynamic = "force-dynamic";
 
@@ -25,20 +24,9 @@ export default async function Home() {
           <FilterSection foodTypeFilters={foodTypeFilters} />
         </Suspense>
         <main className="w-full">
-          <div className="flex flex-row gap-4 py-4 snap-x snap-mandatory scroll-smooth ">
+          <div className="flex flex-row gap-4 py-4 snap-x snap-mandatory scroll-smooth h-30">
             {foodTypeFilters.map((filter) => (
-              <Card
-                key={filter.id}
-                className="flex flex-row w-40 h-20 snap-start"
-              >
-                <p className="text-lg font-bold whitespace-nowrap">{filter.name}</p>
-                <Image
-                  src={`/api/proxy?url=${filter.image_url}`}
-                  alt={filter.name}
-                  width={80}
-                  height={80}
-                />
-              </Card>
+              <FoodTypeFilterCard key={filter.id} filter={filter} />
             ))}
           </div>
           <h2 className="text-2xl font-bold my-10">{"Restaurant's"} </h2>

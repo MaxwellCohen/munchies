@@ -88,6 +88,9 @@ function PriceFilter() {
     queryFn: getAllPriceRanges,
   });
   const searchFilters = useSearchFilters();
+  if (!priceRanges.length) {
+    return null;
+  }
   return (
     <div>
       <h3 className="text-lg pt-4 pb-4">Price Range</h3>
