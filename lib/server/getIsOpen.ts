@@ -1,6 +1,5 @@
-'use server'
-import { apiProxy } from "@/lib/server/apiProxy";
 import { z } from "zod";
+import { baseUrl } from "../constants";
 
 const isOpenSchema = z.object({
   restaurant_id: z.string(),
@@ -8,9 +7,9 @@ const isOpenSchema = z.object({
 });
 
 export async function getIsOpen(id: string) {
-  
+
   try {
-    const res = await apiProxy(`open/${id}`);
+    const res = await fetch(`${baseUrl}/api/proxy?url=open/${id}`);
     const data = await res.json();
     return isOpenSchema.parse(
       data || {

@@ -1,7 +1,6 @@
-"use server"
-import { apiProxy } from "@/lib/server/apiProxy";
 import { z } from "zod";
 import { getRestaurants } from "./getRestaurants";
+import { baseUrl } from "../constants";
 
 
 const isOpenSchema = z.object({
@@ -11,7 +10,7 @@ const isOpenSchema = z.object({
 
 export async function getPriceRange(id: string) {
   try {
-    const res = await apiProxy(`price-range/${id}`);
+    const res = await fetch(`${baseUrl}/api/proxy?url=price-range/${id}`);
     const data = await res.json();
     return isOpenSchema.parse(
       data || {

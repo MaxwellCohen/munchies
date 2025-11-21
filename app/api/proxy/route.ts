@@ -6,6 +6,7 @@ export async function GET(request: NextRequest) {
     // Optional: extract query parameters
     const searchParams = request.nextUrl.searchParams;
     const path = searchParams.get("url") || "";
+    console.log(path);
 
     const cleanPath = path.startsWith("/") ? path.slice(1) : path;
     const res = await apiProxy(cleanPath);
