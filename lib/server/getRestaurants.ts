@@ -1,6 +1,5 @@
 "use server"
 import { z } from "zod";
-import { cacheLife } from "next/cache";
 import { baseUrl } from "../constants";
 const filterObjectSchema = z.object({
   id: z.string(),
@@ -13,8 +12,6 @@ const filterObjectSchema = z.object({
 });
 
 export async function getRestaurants() {
-  "use cache"
-  cacheLife({ stale: 10 });
   const res = await fetch(`${baseUrl}/api/proxy?url=restaurants`);
   const data = await res.json();
   return filterObjectSchema.array().parse(data.restaurants || []);

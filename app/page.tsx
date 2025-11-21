@@ -7,12 +7,13 @@ import { Suspense } from "react";
 import { FilterSection } from "@/components/filterSection/filterSection";
 import { RestaurantList } from "@/components/restaurantList/restaurantList";
 
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
   const [foodTypeFilters, restaurants] = await Promise.all([
     getFilters(),
     getRestaurants(),
   ]);
-
   return (
     <div className="pt-10 px-4 lg:px-10 container mx-auto max-w-screen overflow-hidden">
       <nav className="lg:py-10">
