@@ -14,6 +14,7 @@ export default async function Home() {
     getFilters(),
     getRestaurants(),
   ]);
+
   return (
     <div className="pt-10 px-4 lg:px-10 container mx-auto max-w-screen overflow-hidden">
       <nav className="lg:py-10">

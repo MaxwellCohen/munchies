@@ -1,4 +1,3 @@
-"use server"
 import { z } from "zod";
 import { baseUrl } from "../constants";
 const filterObjectSchema = z.object({

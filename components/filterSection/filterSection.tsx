@@ -4,28 +4,17 @@ import { DeliveryTimeRages } from "@/lib/constants";
 import { FoodTypeFilter } from "@/lib/server/getFilters";
 import clsx from "clsx";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 import { getAllPriceRanges } from "@/lib/server/getPriceRage";
 import { useSuspenseQuery } from "@tanstack/react-query";
+import { useSearchFilters } from "./useSearchFilters";
 
 export function FilterSection({
   foodTypeFilters,
 }: {
   foodTypeFilters: FoodTypeFilter[];
 }) {
-  const searchParams = useSearchParams();
-  const foodType = searchParams.get("food_type") || null;
-  const deliveryTime = searchParams.get("delivery_time") || null;
-  const priceRangeId = searchParams.get("price_range_id") || null;
-  const searchFilters = {
-    food_type: foodType,
-    price_range_id: priceRangeId,
-    delivery_time: deliveryTime,
-  };
-  const { data: priceRanges } = useSuspenseQuery({
-    queryKey: ["price-ranges"],
-    queryFn: getAllPriceRanges,
-  });
+  const searchFilters = useSearchFilters();
+
   return (
     <Card>
       <h2 className="text-2xl font-bold">Filter</h2>
@@ -38,14 +27,19 @@ export function FilterSection({
                 key={filter.id}
                 className={clsx(
                   "text-lg  border border-gray-300 px-2 rounded-md",
-                  { "bg-gray-200": filter.id === foodType }
+                  { "bg-gray-200": filter.id === searchFilters.food_type }
                 )}
                 href={{
                   pathname: "/",
-                  query: JSON.parse(JSON.stringify({
-                    ...searchFilters,
-                    food_type: filter.id === foodType ? undefined : filter.id,
-                  })),
+                  query: JSON.parse(
+                    JSON.stringify({
+                      ...searchFilters,
+                      food_type:
+                        filter.id === searchFilters.food_type
+                          ? undefined
+                          : filter.id,
+                    })
+                  ),
                 }}
               >
                 {filter.name}
@@ -63,14 +57,17 @@ export function FilterSection({
                 key={`delivery-time-${time}`}
                 className={clsx(
                   "text-lg  border border-gray-300 px-2 rounded-md",
-                  { "bg-gray-200": name === deliveryTime }
+                  { "bg-gray-200": name === searchFilters.delivery_time }
                 )}
                 href={{
                   pathname: "/",
-                  query: JSON.parse(JSON.stringify({
-                    ...searchFilters,
-                    delivery_time: name === deliveryTime ? undefined : name,
-                  })),  
+                  query: JSON.parse(
+                    JSON.stringify({
+                      ...searchFilters,
+                      delivery_time:
+                        name === searchFilters.delivery_time ? undefined : name,
+                    })
+                  ),
                 }}
               >
                 {name}
@@ -79,33 +76,46 @@ export function FilterSection({
           })}
         </div>
       </div>
-      <div>
-        <h3 className="text-lg pt-4 pb-4">Price Range</h3>
-        <div className="flex flex-row flex-wrap gap-4">
-          {priceRanges.map(({ id, range }) => {
-            return (
-              <Link
-                key={`price-range-${id}`}
-                className={clsx(
-                  "text-lg  border border-gray-300 px-2 rounded-md",
-                  { "bg-gray-200": id === searchFilters.price_range_id }
-                )}
-                href={{
-                  pathname: "/",
-                  query: JSON.parse(JSON.stringify({
-                    ...searchFilters,
-                    price_range_id: id === priceRangeId ? undefined : id,
-                  })),
-                }}
-              >
-                {range}
-              </Link>
-            );
-          })}
-        </div>
-      </div>
+
+      <PriceFilter />
     </Card>
   );
 }
 
-
+function PriceFilter() {
+  const { data: priceRanges } = useSuspenseQuery({
+    queryKey: ["price-ranges"],
+    queryFn: getAllPriceRanges,
+  });
+  const searchFilters = useSearchFilters();
+  return (
+    <div>
+      <h3 className="text-lg pt-4 pb-4">Price Range</h3>
+      <div className="flex flex-row flex-wrap gap-4">
+        {priceRanges.map(({ id, range }) => {
+          return (
+            <Link
+              key={`price-range-${id}`}
+              className={clsx(
+                "text-lg  border border-gray-300 px-2 rounded-md",
+                { "bg-gray-200": id === searchFilters.price_range_id }
+              )}
+              href={{
+                pathname: "/",
+                query: JSON.parse(
+                  JSON.stringify({
+                    ...searchFilters,
+                    price_range_id:
+                      id === searchFilters.price_range_id ? undefined : id,
+                  })
+                ),
+              }}
+            >
+              {range}
+            </Link>
+          );
+        })}
+      </div>
+    </div>
+  );
+}

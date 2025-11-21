@@ -32,7 +32,7 @@ export async function getAllPriceRanges() {
   try {
     const restaurants = await getRestaurants();
       const priceIDs = [...new Set(restaurants.map((r) => r.price_range_id))];
-    const priceRanges = await Promise.all(priceIDs.map(getPriceRange));
+    const priceRanges = (await Promise.all(priceIDs.map(getPriceRange))).filter((p) => p.range !== "");
     
     return priceRanges;
   } catch (error) {
