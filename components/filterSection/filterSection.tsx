@@ -20,13 +20,13 @@ export function FilterSection({
       <h2 className="text-2xl font-bold">Filter</h2>
       <div>
         <h3 className="text-lg pt-4 pb-4">Food Type</h3>
-        <div className="flex flex-row flex-wrap gap-4">
+        <div className="flex flex-row md:flex-wrap overflow-auto gap-4">
           {foodTypeFilters.map((filter) => {
             return (
               <Link
                 key={filter.id}
                 className={clsx(
-                  "text-lg  border border-gray-300 px-2 rounded-md",
+                  "text-lg  border border-gray-300 px-2 rounded-md text-center whitespace-nowrap",
                   { "bg-gray-200": filter.id === searchFilters.food_type }
                 )}
                 href={{
@@ -50,13 +50,13 @@ export function FilterSection({
       </div>
       <div>
         <h3 className="text-lg pt-4 pb-4">Delivery Time</h3>
-        <div className="flex flex-row flex-wrap gap-4">
+        <div className="flex flex-row md:flex-wrap overflow-auto gap-4">
           {DeliveryTimeRages.map(([name, time]) => {
             return (
               <Link
                 key={`delivery-time-${time}`}
                 className={clsx(
-                  "text-lg  border border-gray-300 px-2 rounded-md",
+                  "text-lg  border border-gray-300 px-2 rounded-md text-center whitespace-nowrap",
                   { "bg-gray-200": name === searchFilters.delivery_time }
                 )}
                 href={{
@@ -94,13 +94,13 @@ function PriceFilter() {
   return (
     <div>
       <h3 className="text-lg pt-4 pb-4">Price Range</h3>
-      <div className="flex flex-row flex-wrap gap-4">
+      <div className="flex flex-row md:flex-wrap overflow-auto gap-4">
         {priceRanges.map(({ id, range }) => {
           return (
             <Link
               key={`price-range-${id}`}
               className={clsx(
-                "text-lg  border border-gray-300 px-2 rounded-md",
+                "text-lg  border border-gray-300 px-2 rounded-md text-center whitespace-nowrap",
                 { "bg-gray-200": id === searchFilters.price_range_id }
               )}
               href={{

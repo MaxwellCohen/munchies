@@ -46,12 +46,12 @@ export function RestaurantList({ restaurants }: { restaurants: Restaurant[] }) {
   });
 
   return (
-    <div className="grid gap-4 grid-cols-[repeat(auto-fit,minmax(clamp(14rem,20vw,20rem),1fr))] w-[calc(100vw-30rem)]">
+    <div className="grid gap-4 grid-cols-1 md:grid-cols-[repeat(auto-fit,minmax(clamp(14rem,20vw,20rem),1fr))] md:w-[calc(100vw-30rem)]">
       <ViewTransition>
         {filterRestaurants.map((restaurant) => (
           <Card
             key={restaurant.id}
-            className="grid grid-cols-[auto_auto] grid-rows-[auto_auto] gap-4 relative h-50 max-w-full overflow-hidden flex-1 w-max-1/3"
+            className="grid grid-cols-[auto_auto] grid-rows-[auto_auto] gap-4 relative h-50 max-w-full md:w-[33vw] overflow-hidden flex-1 md:w-max-1/3 min-w-70"
           >
             <div className="flex flex-row gap-2 h-8 items-center">
               <Suspense
